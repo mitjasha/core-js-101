@@ -22,8 +22,11 @@
  *   getComposition(Math.sin, Math.asin)(x) => Math.sin(Math.asin(x))
  *
  */
-function getComposition(/* f, g */) {
-  throw new Error('Not implemented');
+function getComposition(f, g) {
+  function foo(x) {
+    return f(g(x));
+  }
+  return foo;
 }
 
 /**
@@ -42,8 +45,11 @@ function getComposition(/* f, g */) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  function foo(x) {
+    return x ** exponent;
+  }
+  return foo;
 }
 
 /**
