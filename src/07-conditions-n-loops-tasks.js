@@ -168,8 +168,11 @@ function doRectanglesOverlap(rect1, rect2) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const distPoints = (point.x - circle.center.x) * (point.x - circle.center.x)
+  + (point.y - circle.center.y) * (point.y - circle.center.y);
+  const radius = circle.radius ** 2;
+  return distPoints < radius;
 }
 
 /**
@@ -285,8 +288,25 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const ccnString = ccn.toString();
+  let sum = 0;
+
+  for (let i = 0; i < ccnString.length; i += 1) {
+    let cardNum = Number(ccnString[i]);
+
+    if ((ccnString.length - i) % 2 === 0) {
+      cardNum *= 2;
+
+      if (cardNum > 9) {
+        cardNum -= 9;
+      }
+    }
+
+    sum += cardNum;
+  }
+
+  return sum % 10 === 0;
 }
 
 /**
@@ -333,8 +353,18 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const brackets = ['{}', '[]', '()', '<>'];
+  let outResult = str;
+
+  for (let index = 0; index < brackets.length; index += 1) {
+    while (outResult.includes(brackets[index])) {
+      outResult = outResult.replace(brackets[index], '');
+      index = 0;
+    }
+  }
+
+  return !outResult;
 }
 
 /**
@@ -357,8 +387,15 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  let str = '';
+  let cur = num;
+  while (cur >= n) {
+    str += cur % n;
+    cur = Math.floor(cur / n);
+  }
+  str += (cur * n) / n;
+  return str.split('').reverse().join('');
 }
 
 /**
@@ -395,8 +432,21 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const m1NumRows = m1.length;
+  const m1NumCols = m1[0].length;
+  const m2NumCols = m2[0].length;
+  const m3 = new Array(m1NumRows);
+  for (let r = 0; r < m1NumRows; r += 1) {
+    m3[r] = new Array(m2NumCols);
+    for (let c = 0; c < m2NumCols; c += 1) {
+      m3[r][c] = 0;
+      for (let i = 0; i < m1NumCols; i += 1) {
+        m3[r][c] += m1[r][i] * m2[i][c];
+      }
+    }
+  }
+  return m3;
 }
 
 /**
