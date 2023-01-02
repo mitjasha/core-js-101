@@ -170,7 +170,7 @@ function doRectanglesOverlap(rect1, rect2) {
  */
 function isInsideCircle(circle, point) {
   const distPoints = (point.x - circle.center.x) * (point.x - circle.center.x)
-  + (point.y - circle.center.y) * (point.y - circle.center.y);
+    + (point.y - circle.center.y) * (point.y - circle.center.y);
   const radius = circle.radius ** 2;
   return distPoints < radius;
 }
@@ -410,8 +410,24 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  let res = '';
+  let current = '';
+  for (let i = 0; i < pathes[0].length; i += 1) {
+    current = pathes[0][i];
+    let count = 1;
+    for (let j = 1; j < pathes.length; j += 1) {
+      if (pathes[j][i] === current) {
+        count += 1;
+      } else {
+        return res.slice(0, res.lastIndexOf('/') + 1);
+      }
+      if (count === pathes.length) {
+        res += current;
+      }
+    }
+  }
+  return res.slice(0, res.lastIndexOf('/') + 1);
 }
 
 /**
